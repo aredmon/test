@@ -89,8 +89,8 @@ def buildSim(inputDictionary={}):
                     mods.SAPs.RDR_FRAC_TRACKS_DETECTED, unpack=True)
     
         # create tracks local to the CV/KV complex and perform TOM matching
-        if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and controlFlags.tomRecvd == True:
-            controlFlags.correlateTOM = True
+        if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and controlFlags.tomRecvd:
+            controlFlags.tomCorrelated = False
             pLethalOnboard = mods.DiscriminationOnboard(nThreats, dataStore["rvID"], mods.SAPs.CV_KFACTOR)
             onboardThreats, onboardThreatsCov, onboardThreatsIds = mods.MakeOnboardThreats(
                     dataStore["threatStates"], dataStore["rvID"], 

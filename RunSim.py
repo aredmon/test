@@ -35,6 +35,7 @@ import json
 import argparse
 import sim.importModules as mods
 import ScenarioBuilder
+import sensor_scheduler.RunSS
 
 def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aClose, 
         thtRadius, tCurr, tFinal, tomStates, tomCov, tomIds, onboardThreats, onboardThreatsCov, 
@@ -74,10 +75,15 @@ def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aC
         # propagate threats to the nearest time
         for iThrt in range(nThreats):
             threatStates[iThrt] = mods.PropagateECI(threatStates[iThrt], 0.0, tStep)
+
+        # exercise the sensor scheduler
+        if controls.tomCorrelated:
+            ids = np.arange(1,nThreats)
+            # newObjIds = RunSS
     
         # create tracks local to the CV/KV complex and perform TOM matching
         #if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and correlateTOM == True:
-        if controls.correlateTOM == True:
+        if not controls.tomCorrelated:
             tomCorrData, winner = mods.CorrelateTOM(tomStates, tomCov, tomIds, onboardThreats, 
                     onboardThreatsCov, onboardThreatsIds, mods.SAPs.KV_NUM_KVS, rvID, kvStates)
 
@@ -91,7 +97,7 @@ def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aC
                 print(" updated lethality estimate: {}".format(pLethalOnboard[irIndex]))
 
             controls.kvsDeployed = True
-            controls.correlateTOM = False
+            controls.tomCorrelated = True
             
     
         # dispense the KVs (when its time)
@@ -206,6 +212,7 @@ def main(_):
     # everything should be converted now, feed to runSim
     kvStates = runSim(controlFlags=scenarioControl, **scenarioData)
     print("final kvStates: \n{}".format(kvStates))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

@@ -78,9 +78,13 @@ def buildSim(inputDictionary={}):
         for iThrt in range(nThreats):
             dataStore["threatStates"][iThrt] = mods.PropagateECI(dataStore["threatStates"][iThrt], 0.0, tStep)
     
-        # create the TOM at the appropriate time (one time only)
+         # create the TOM at the appropriate time (one time only)
         if tFinal - t >= mods.SAPs.RDR_TOM_TGO:
             pLethalGround = mods.DiscriminationGround(nThreats, dataStore["rvID"], mods.SAPs.RDR_KFACTOR)
+            scpl = np.zeros(nThreats);
+            for iThrt in range(nThreats):
+                # scpl(1,ii) = Util_UniformRandRange(0.01, 0.99);
+                scpl[iThrt] = 0;
         
         if not controlFlags.tomRecvd and tFinal - t <= mods.SAPs.RDR_TOM_TGO:
             controlFlags.tomRecvd = True

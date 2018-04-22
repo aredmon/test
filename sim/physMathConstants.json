@@ -1,0 +1,38 @@
+{
+    "info": {
+        "KG2LB": "kilograms to pounds", 
+        "H_TROPO": "Height of troposhpere (m)", 
+        "S2D": "seconds to days", 
+        "W_EARTH": "earth rotation rate, (rad/sec)", 
+        "D2S": "days to seconds", 
+        "D2R": "degrees to radians", 
+        "R2D": "radians to degrees", 
+        "J2": "", 
+        "BOLTZMAN": "Boltzmann (mks units)", 
+        "MU": "gravitational constant (m3/s2)", 
+        "G_o": "gravity at earth surface (m/s2)", 
+        "FLATTEN": "WGS84 flattening term", 
+        "ARIES": "Default Point of Aries angle.", 
+        "R_EARTH": "Radius of earth (m)", 
+        "SPEED_LIGHT": "speed of light (m/s)", 
+        "PLANCK": "Plank Constant (mks units)"
+    }, 
+    "data": {
+        "KG2LB": 2.20462262, 
+        "H_TROPO": 7400, 
+        "S2D": 0, 
+        "W_EARTH": 7.2921151467e-05, 
+        "D2S": 86400, 
+        "D2R": 0.017453292519943295, 
+        "R2D": 57.29577951308232, 
+        "J2": 0.001081874, 
+        "BOLTZMAN": 1.380662e-23, 
+        "MU": 398600441500000.0, 
+        "G_o": 9.80665, 
+        "FLATTEN": 0.0033528106647474805, 
+        "ARIES": 0, 
+        "R_EARTH": 6378136.3, 
+        "SPEED_LIGHT": 299792458, 
+        "PLANCK": 6.6262e-34
+    }
+}

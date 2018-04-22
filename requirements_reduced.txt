@@ -1,0 +1,12 @@
+backports-abc==0.5
+backports.shutil-get-terminal-size==1.0.0
+backports.ssl-match-hostname==3.5.0.1
+bleach==2.1.2
+certifi==2018.1.18
+configparser==3.5.0
+decorator==4.2.1
+entrypoints==0.2.3
+enum34==1.1.6
+functools32==3.2.3.post2
+html5lib==1.0.1
+jsonschema==2.6.0

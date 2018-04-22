@@ -1,0 +1,14 @@
+{
+    "info": {
+        "SIGMA_FACTOR": "covariance multiplier", 
+        "BIG_L": "algorithm parameter", 
+        "CARRIER_SENSOR": "1 = centralized, carrier has sensor;  0 = distributed, no carrier sensor", 
+        "EIGENVALUE_DIFF_THRESHOLD": "algorithm parameter"
+    }, 
+    "data": {
+        "SIGMA_FACTOR": 1, 
+        "BIG_L": 10000000000.0, 
+        "CARRIER_SENSOR": 0, 
+        "EIGENVALUE_DIFF_THRESHOLD": 0.01
+    }
+}

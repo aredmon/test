@@ -1,0 +1,12 @@
+{
+    "info": {
+        "Doctine": "null structure for firing doctrine"
+    }, 
+    "data": {
+        "valueCutoff": 0.099, 
+        "minPk": 0.4, 
+        "maxShotsThreat": 2, 
+        "avePk": 0.8, 
+        "maxShotsWeapon": 1
+    }
+}

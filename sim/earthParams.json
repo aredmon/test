@@ -1,0 +1,38 @@
+{
+    "info": {
+        "a": "Earth semi-major axis [m]", 
+        "c": "Velocity of light [m/s]", 
+        "b": "Earth semi-minor axis [m] (b = a - f*a)", 
+        "e": "Earth eccentricity (e^2 = (a^2-b^2)/a^2", 
+        "f": "Earth flattening (a - b) / a : f = (a - b) / a", 
+        "gamma_pl": "Normal gravity at poles [m/s^2]", 
+        "tu": "Canonical time unit [solar sec] (sqrt(a^3/mu))", 
+        "J2": "Dynamical form factor", 
+        "mu": "Geocentric gravitational constant [m^3/s^2]", 
+        "J2000": "J2000.0 epoch in Julian days", 
+        "gamma_mn": "Mean normal gravity on ellipsoid [m/s^2]", 
+        "r_mean": "Earth mean radius [m] ( R = (2a+b)/3", 
+        "w": "Earth angular rotation rate [rad/sec]", 
+        "gamma_eq": "Normal gravity at equator [m/s^2]", 
+        "au": "Astronomical unit [km]", 
+        "spd": "Canonical earth rotation unit [km / solar sec] (a / tu)"
+    }, 
+    "data": {
+        "a": 6378137.0, 
+        "c": 299792458.0, 
+        "b": 6356752.3142, 
+        "e": 0.081819190842622, 
+        "f": 0.0033528106647474805, 
+        "gamma_pl": 9.8321849378, 
+        "tu": 806.8111238242922, 
+        "J2": 0.00108262668355315, 
+        "mu": 398600441800000.0, 
+        "J2000": 2451545.0, 
+        "gamma_mn": 9.7976432222, 
+        "r_mean": 6371008.7714, 
+        "w": 7.292115e-05, 
+        "gamma_eq": 9.7803253359, 
+        "au": 149597871.464, 
+        "spd": 7905.367017459467
+    }
+}

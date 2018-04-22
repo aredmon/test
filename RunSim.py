@@ -75,10 +75,6 @@ def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aC
         for iThrt in range(nThreats):
             threatStates[iThrt] = mods.PropagateECI(threatStates[iThrt], 0.0, tStep)
     
-        # create the TOM at the appropriate time (one time only)
-        if tFinal - t >= mods.SAPs.RDR_TOM_TGO:
-            pLethalGround = mods.DiscriminationGround(nThreats, rvID, mods.SAPs.RDR_KFACTOR)
-        
         # create tracks local to the CV/KV complex and perform TOM matching
         #if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and correlateTOM == True:
         if controls.correlateTOM == True:
@@ -193,9 +189,12 @@ def main(_):
                     rmd_input.update({field: np.asarray(rmd_input[field])})
             scenarioParameters = ScenarioBuilder.buildSim(rmd_input)
     # if scenarioParameters file is input
-    else:
+    elif parser.parse_args().scenarioFile != "":
         with open(FLAGS.scenarioFile, 'r') as jsonFile:
             scenarioParameters = json.load(jsonFile, encoding='utf8')
+    # if no file provided as input
+    else:
+        scenarioParameters = ScenarioBuilder.buildSim()
 
     scenarioData = scenarioParameters["dataStore"]
     scenarioControl = scenarioParameters["controlFlags"]
@@ -210,12 +209,13 @@ def main(_):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--scenarioFile', type=str, default='scenarioParameters.json', 
+    parser.add_argument('-s', '--scenarioFile', type=str, default="",
             help='input JSON string that contains controlFlags and scenario setup data')
-    parser.add_argument('-r', '--rmdFile', required = False, default = "", 
+    parser.add_argument('-r', '--rmdFile', required=False, default="",
             help='input JSON string that contains RMDTool output data')
     FLAGS, unparsed = parser.parse_known_args()
     main([sys.argv[0], unparsed])
+
 
 """
 *************************************************************************************************************

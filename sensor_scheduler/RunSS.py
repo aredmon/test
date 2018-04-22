@@ -39,10 +39,8 @@
 import numpy as np
 import importModules as mods
 
-def run_ss():
-    """
-    TODO: figure out all the setup stuff you need to call exec_ss
-    """
+def run_ss(cvState, threatStates, ids, pLethalGround, scpl, tomIds, features, tStep, t):
+
     return newTrackIds
 
 def exec_ss(relevantSimStates, completeSimStates, ):

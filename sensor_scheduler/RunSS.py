@@ -40,7 +40,7 @@ import numpy as np
 import importModules as mods
 
 def run_ss(cvState, threatStates, ids, pLethalGround, scpl, tomIds, features, tStep, t):
-
+    newTrackIds = {};
     return newTrackIds
 
 def exec_ss(relevantSimStates, completeSimStates, ):

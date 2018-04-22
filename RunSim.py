@@ -50,6 +50,8 @@ def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aC
     # initialize kvStates to current cvState
     kvStates = mods.DispenseKVs(cvState)
 
+    scpl = mods.UniformRandRange(0.1, 0.99);
+
     controls = mods.SimpleNamespace(controlFlags)
     #exceptionCounter = 0
     startTime = time.clock()

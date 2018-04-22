@@ -85,8 +85,7 @@ def runSim(cvState, cvFuel, threatStates, rvID, tankID, tPOCA, rPOCA, vClose, aC
             # newObjIds = RunSS
     
         # create tracks local to the CV/KV complex and perform TOM matching
-        #if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and correlateTOM == True:
-        if not controls.tomCorrelated:
+        if tFinal - t <= mods.SAPs.CV_TGO_SENSOR_ON and not controls.tomCorrelated:
             tomCorrData, winner = mods.CorrelateTOM(tomStates, tomCov, tomIds, onboardThreats, 
                     onboardThreatsCov, onboardThreatsIds, mods.SAPs.KV_NUM_KVS, rvID, kvStates)
 

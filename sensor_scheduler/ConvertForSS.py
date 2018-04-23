@@ -34,10 +34,62 @@
 *                                                                                                           *
 *************************************************************************************************************
 """
+import numpy as np
+
+first_time = True
 
 def convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds):
     # TODO: how to handle matlab persistent first_time flag
 
     nThreats = threatStates.shape[0]
-    print nThreats
+    tracks = [None] * nThreats
+    tomTracks = [None] * len(tomIds)
+    cv = None
+    simStateAll = {'tracks': tracks, 'cvState': cvState}
+    simState = {'tomTracks': tomTracks}
+    jj = 0;
+    print(nThreats)
+    print(threatIds)
+    print(tomIds)
+    for ii in range(nThreats):
+        track = {'rCurr': np.divide(threatStates[ii][0:3], 1e3), 'vCurr': np.divide(threatStates[ii][3:6], 1e3)}
+        track['id'] = threatIds[ii]
+        track['active'] = True
+        track['pLethal'] = pLethal[ii]
+        track['snr'] = 10.0
+        track['scpl'] = scpl[ii]
+        simStateAll['tracks'][ii] = track
+        # ind = np.where(tomIds == threatIds[ii])
+        ind = list(tomIds).index(threatIds[ii])
+        if ind is not None:
+            simState['tomTracks'][jj] = simStateAll['tracks'][ii]
+            jj += 1
 
+    nTracks = jj - 1
+
+    # update the cv
+    cvTrack = {'rCurr': np.divide(cvState[0:3], 1e3), 'vCurr': np.divide(cvState[3:6], 1e3)}
+    simStateAll['cvState'] = cvTrack
+    simStateAll['cvState'] = cvTrack
+
+    print(simStateAll)
+    print (simState)
+
+    global first_time
+    if first_time:
+        first_time = False
+        simStateAll['cvState']['CVup'] = simStateAll['cvState']['rCurr']
+        print("KLG", simState['tomTracks'][:nTracks])
+        # cvPointing = np.mean(simState['tomTracks']['rCurr']) - simStateAll['cvState']['rCurr']
+        # simStateAll['cvState']['CVpointing'] = cvPointing / np.norm(cvPointing)
+
+
+if __name__ == '__main__':
+    cvState = np.random.rand(7)
+    threatStates = np.random.rand(12, 7)
+    threatIds = np.arange(1, threatStates.shape[0]+1)
+    pLethal = np.random.rand(12)
+    scpl = np.random.rand(12)
+    tomIds = np.arange(1, threatStates.shape[0]+1)
+    convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds)
+    convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds)

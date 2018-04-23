@@ -38,50 +38,55 @@ import numpy as np
 
 first_time = True
 
-def convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds):
-    # TODO: how to handle matlab persistent first_time flag
 
-    nThreats = threatStates.shape[0]
-    tracks = [None] * nThreats
-    tomTracks = [None] * len(tomIds)
-    cv = None
-    simStateAll = {'tracks': tracks, 'cvState': cvState}
-    simState = {'tomTracks': tomTracks}
+def convertForSS(cv_state, threat_states, threat_ids, p_lethal, scpl, tom_ids):
+    n_threats = threat_states.shape[0]
+    tracks = [None] * n_threats
+    tom_tracks = [None] * len(tom_ids)
+    sim_state_all = {'tracks': tracks, 'cvState': cv_state}
+    sim_state = {'tomTracks': tom_tracks}
     jj = 0;
-    print(nThreats)
-    print(threatIds)
-    print(tomIds)
-    for ii in range(nThreats):
-        track = {'rCurr': np.divide(threatStates[ii][0:3], 1e3), 'vCurr': np.divide(threatStates[ii][3:6], 1e3)}
-        track['id'] = threatIds[ii]
-        track['active'] = True
-        track['pLethal'] = pLethal[ii]
-        track['snr'] = 10.0
-        track['scpl'] = scpl[ii]
-        simStateAll['tracks'][ii] = track
-        # ind = np.where(tomIds == threatIds[ii])
-        ind = list(tomIds).index(threatIds[ii])
-        if ind is not None:
-            simState['tomTracks'][jj] = simStateAll['tracks'][ii]
+    for ii in range(n_threats):
+        track = {
+            'rCurr': np.divide(threat_states[ii][0:3], 1e3),
+            'vCurr': np.divide(threat_states[ii][3:6], 1e3),
+            'id': threat_ids[ii],
+            'active': True,
+            'pLethal': p_lethal[ii],
+            'snr': 10.0,
+            'scpl': scpl[ii]
+        }
+        sim_state_all['tracks'][ii] = track
+        try:
+            list(tom_ids).index(threat_ids[ii])
+            sim_state['tomTracks'][jj] = sim_state_all['tracks'][ii]
             jj += 1
+        except ValueError:
+            pass
 
-    nTracks = jj - 1
+    n_tracks = jj - 1
 
     # update the cv
-    cvTrack = {'rCurr': np.divide(cvState[0:3], 1e3), 'vCurr': np.divide(cvState[3:6], 1e3)}
-    simStateAll['cvState'] = cvTrack
-    simStateAll['cvState'] = cvTrack
-
-    print(simStateAll)
-    print (simState)
+    cv_track = {
+        'rCurr': np.divide(cv_state[0:3], 1e3),
+        'vCurr': np.divide(cv_state[3:6], 1e3)
+    }
+    sim_state_all['cvState'] = cv_track
+    sim_state['cvState'] = cv_track
 
     global first_time
     if first_time:
+        positions = []
+        sim_state_all['cvState']['CVup'] = sim_state_all['cvState']['rCurr']
+        for position in sim_state['tomTracks']:
+            positions.append(position['rCurr'])
+        cv_pointing = np.mean(positions, axis=0) - sim_state_all['cvState']['rCurr']
+        sim_state_all['cvState']['CVpointing'] = cv_pointing / np.linalg.norm(cv_pointing)
+        sim_state['cvState'] = sim_state_all['cvState']
         first_time = False
-        simStateAll['cvState']['CVup'] = simStateAll['cvState']['rCurr']
-        print("KLG", simState['tomTracks'][:nTracks])
-        # cvPointing = np.mean(simState['tomTracks']['rCurr']) - simStateAll['cvState']['rCurr']
-        # simStateAll['cvState']['CVpointing'] = cvPointing / np.norm(cvPointing)
+
+    print(sim_state_all)
+    print (sim_state)
 
 
 if __name__ == '__main__':
@@ -90,6 +95,5 @@ if __name__ == '__main__':
     threatIds = np.arange(1, threatStates.shape[0]+1)
     pLethal = np.random.rand(12)
     scpl = np.random.rand(12)
-    tomIds = np.arange(1, threatStates.shape[0]+1)
-    convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds)
+    tomIds = np.arange(1, threatStates.shape[0])
     convertForSS(cvState, threatStates, threatIds, pLethal, scpl, tomIds)
